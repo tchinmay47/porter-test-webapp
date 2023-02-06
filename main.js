@@ -111,13 +111,19 @@ fetch(FULL_URL2)
         console.log(reflist)
     })
 
-function getRandomNumber(exclude) {
-    let randomNumber = Math.floor(Math.random() * 10) + 1;
-    while (exclude.includes(randomNumber)) {
-        randomNumber = Math.floor(Math.random() * 10) + 1;
-    }
-    return randomNumber;
-}
+    function randomizeList(list, exclude) {
+        if (exclude.length === list.length) {
+            let result ="List completed";
+          return result;
+        }
+        let result = list[Math.floor(Math.random() * list.length)];
+        while (exclude.includes(result)) {
+          result = list[Math.floor(Math.random() * list.length)];
+        }
+        return result;
+      }
+      
+
 
 
 //   console.log(getRandomNumber(exclude));
@@ -131,9 +137,9 @@ function handleSubmit(event) {
     // console.log(document.getElementById("list").options[document.getElementById("list").selectedIndex].text);
     // document.getElementById("op-text").innerHTML = scenarioInput;
     let phno = document.getElementById("textInput").value;
-    let batch = document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
+    let agent_id = document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
 
-    let agentid = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
+    let batch = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
     let scenarioip = scenarioInput
 
     fetch(FULL_URL1)
@@ -141,11 +147,12 @@ function handleSubmit(event) {
         .then(rep => {
             let data = JSON.parse(rep.substr(47).slice(0, -2));
             let randomNumber = Math.floor(Math.random() * 105) + 1;
+            console.log(randomNumber)
             let exclude = [];
-            let inputcheck = agentid+"_"+batch+"-"+scenarioip;
+            let inputcheck = agent_id+"&"+batch+"*"+scenarioip;
 
             let filteredData = reflist.filter(item => item.startsWith(inputcheck));
-            let numbers = filteredData.map(item => parseInt(item.split("-")[1]));
+            let numbers = filteredData.map(item => parseInt(item.split("*")[1]));
             numbers.sort(function (a, b) { return a - b });
             console.log(numbers)
             
@@ -158,7 +165,7 @@ function handleSubmit(event) {
             for (let i = 0; i < data.table.rows.length; i++) {
                 if (scenarioip == data.table.rows[i].c[1].v) {
                     document.getElementById("op-text").innerHTML = data.table.rows[i].c[2].v + "<br>"
-                    document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
+                    // document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
                 }
             }
 
@@ -166,7 +173,7 @@ function handleSubmit(event) {
 
 
         })
-    fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno+"/"+agentid + "/" + batch, {
+    fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno+"/"+batch + "/" + agent_id, {
         "method": "GET"
     })
         .then(response => {

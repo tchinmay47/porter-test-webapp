@@ -133,7 +133,7 @@ fetch(FULL_URL2)
 
 function handleSubmit(event) {
     event.preventDefault();
-    const scenarioInput = document.getElementById("list2").value;
+    let scenarioInput = document.getElementById("list2").value;
     // console.log(document.getElementById("list").options[document.getElementById("list").selectedIndex].text);
     // document.getElementById("op-text").innerHTML = scenarioInput;
     let phno = document.getElementById("textInput").value;

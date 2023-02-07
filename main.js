@@ -173,7 +173,7 @@ function handleSubmit(event) {
 
 
         })
-    fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno+"/"+batch + "/" + agent_id, {
+    fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno+"/"+batch + "/" + agent_id+"/"+scenarioip, {
         "method": "GET"
     })
         .then(response => {

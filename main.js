@@ -44,8 +44,8 @@ fetch(FULL_URL)
 
         for (let i = 0; i < ar1.length; i++) {
             // b1.innerHTML += data.table.rows[i].c[1].v +"<br>";
-            var x = document.getElementById("list");
-            var option = document.createElement("option");
+            let x = document.getElementById("list");
+            let option = document.createElement("option");
             option.text = ar1[i];
             x.add(option);
 
@@ -127,7 +127,7 @@ async function updateBatchSelect(email1) {
 
     // update the batch select dropdown
     batchSelect.options.length = 0
-    var option = document.createElement("option");
+    let option = document.createElement("option");
     option.text = dropdownselect;
     batchSelect.add(option);
 

@@ -1,5 +1,3 @@
-
-
 let SHEET_ID = "1yDfCGLJOB8VSFb-0gM-HRK8oDHwbyAE-2q7je6-RwDA";
 let SHEET_TITLE = "Sheet1";
 let SHEET_TITLE2 = "Sheet2";
@@ -30,9 +28,9 @@ fetch(FULL_URL)
     .then(rep => {
         let data = JSON.parse(rep.substr(47).slice(0, -2));
         // console.log(rep)
-        console.log(data.table.rows[0].c[1].v);
-        console.log(data.table.rows[1].c[1].v);
-        console.log(data.table.rows.length);
+        // console.log(data.table.rows[0].c[1].v);
+        // console.log(data.table.rows[1].c[1].v);
+        // console.log(data.table.rows.length);
 
         for (let i = 0; i < data.table.rows.length; i++) {
             if (!ar1.includes(data.table.rows[i].c[1].v)) {
@@ -110,8 +108,22 @@ fetch(FULL_URL2)
             reflist.push(data.table.rows[i].c[4].v);
 
         }
-        // console.log(reflist)
+        console.log(reflist)
     })
+//Phone number check if blank
+const phoneNumberField = document.getElementById("textInput");
+
+phoneNumberField.addEventListener('blur', function () {
+    const phoneNumber = this.value.trim();
+
+    if (phoneNumber.length === 0) {
+        alert('Please enter a phone number');
+    } else if (phoneNumber.length !== 10) {
+        alert('Please enter a 10-digit phone number');
+    }
+});
+
+
 
 //*******************test*/
 async function updateBatchSelect(email1) {
@@ -162,60 +174,83 @@ async function handleSubmit(event) {
 
     let batch = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
 
+    let response3 = await fetch(FULL_URL);
+    let rep3 = await response3.text();
+    let data3 = JSON.parse(rep3.substr(47).slice(0, -2));
+
+    let responseidk = await fetch(FULL_URL1);
+    let repidk = await responseidk.text();
+    let dataidk = JSON.parse(repidk.substr(47).slice(0, -2));
+    console.log(dataidk)
+
     //for scenario->scenario number
-    let response = await fetch(FULL_URL1);
-    let rep = await response.text();
-    let data = JSON.parse(rep.substr(47).slice(0, -2));
 
-    let randomNumber = Math.floor(Math.random() * 105) + 1;
-    console.log(randomNumber)
 
-    scenariono = data.table.rows[randomNumber].c[0].v;
+    // let randomNumber = Math.floor(Math.random() * data.table.rows.length) + 1;
+    // console.log(randomNumber)
+
+    // scenariono = data.table.rows[randomNumber].c[0].v;
 
 
     let response1 = await fetch(FULL_URL2);
     let rep1 = await response1.text();
     let data1 = JSON.parse(rep1.substr(47).slice(0, -2));
+    reflist = []
+    exclude = []
+    for (let i = 0; i < data1.table.rows.length; i++) {
 
-    for (let i = 1; i < reflist.length; i++) {
+        reflist.push(data1.table.rows[i].c[4].v);
+
+    }
+
+    console.log(reflist.length)
+    for (let i = 0; i < reflist.length; i++) {
         if (reflist[i].startsWith(agent_id)) {
             exclude.push(reflist[i])
         }
 
     }
-    if (exclude.length === ar3.length) {
+    console.log(exclude.length)
+    if (exclude.length >= ar3.length) {
         let result = "List completed";
+        document.getElementById("op-text").innerHTML = result
         console.log(result)
     }
-    let result = ar3[Math.floor(Math.random() * ar3.length)];
-    while (exclude.includes(result)) {
-        result = ar3[Math.floor(Math.random() * ar3.length)];
+    else {
+        console.log(ar3.length)
+        let result = Math.floor(Math.random() * ar3.length + 1);
+        let result1 = agent_id + "*" + result;
+        console.log(exclude)
+        while (exclude.includes(result1)) {
+            result = Math.floor(Math.random() * ar3.length + 1);
+            result1 = agent_id + "*" + result;
+        }
+        console.log(result1)
+        scenariono = result
+        console.log(scenariono)
+        console.log(dataidk.table.rows[scenariono - 1].c[2].v)
+        document.getElementById("op-text").innerHTML = dataidk.table.rows[scenariono - 1].c[2].v
+        // document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
+
+
+
+
+
+        fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno + "/" + agent_id + "/" + batch + "/" + scenariono, {
+            "method": "GET"
+        })
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
-    console.log(result)
-    scenariono=result
 
 
-    document.getElementById("op-text").innerHTML = data.table.rows[scenariono].c[2].v + "<br>"
-    // document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
-
-
-
-
-
-    fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno + "/" + agent_id + "/" + batch + "/" + scenariono, {
-        "method": "GET"
-    })
-        .then(response => {
-            return response.text();
-        })
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-exclude=[];
 }
 
 const copyBtn = document.querySelector("#copy-btn");

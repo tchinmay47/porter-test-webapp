@@ -41,7 +41,7 @@ fetch(FULL_URL)
             }
         }
         ar1.sort();
-        console.log(ar1.length);
+        // console.log(ar1.length);
 
         for (let i = 0; i < ar1.length; i++) {
             namelist += '<option value="' + ar1[i] + '" />';
@@ -83,7 +83,7 @@ fetch(FULL_URL1)
                 ar3.push(data.table.rows[i].c[0].v);
             }
         }
-        console.log(ar3)
+        // console.log(ar3)
 
         // for (let i = 0; i < ar3.length; i++) {
         //     // b1.innerHTML += data.table.rows[i].c[1].v +"<br>";
@@ -109,7 +109,7 @@ fetch(FULL_URL2)
             reflist.push(data.table.rows[i].c[4].v);
 
         }
-        console.log(reflist)
+        // console.log(reflist)
     })
 //Phone number check if blank
 const phoneNumberField = document.getElementById("textInput");
@@ -145,7 +145,7 @@ async function updateBatchSelect(email1) {
     batchSelect.add(option);
 
     // batchSelect.value = dropdownselect;
-    console.log(dropdownselect)
+    // console.log(dropdownselect)
 }
 
 // event listener for the email select dropdown
@@ -173,18 +173,15 @@ async function handleSubmit(event) {
     let phno = document.getElementById("textInput").value;
     agent_id = document.getElementById("namelist").value;
     const phoneNumber = document.getElementById("textInput");
-    console.log(agent_id)
+    // console.log(agent_id)
 
     let batch = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
 
-    let response3 = await fetch(FULL_URL);
-    let rep3 = await response3.text();
-    let data3 = JSON.parse(rep3.substr(47).slice(0, -2));
 
     let responseidk = await fetch(FULL_URL1);
     let repidk = await responseidk.text();
     let dataidk = JSON.parse(repidk.substr(47).slice(0, -2));
-    console.log(dataidk)
+    // console.log(dataidk)
 
     //for scenario->scenario number
 
@@ -206,38 +203,38 @@ async function handleSubmit(event) {
 
     }
 
-    console.log(reflist.length)
+    // console.log(reflist.length)
     for (let i = 0; i < reflist.length; i++) {
         if (reflist[i].startsWith(agent_id)) {
             exclude.push(reflist[i])
         }
 
     }
-    console.log(phoneNumber.length)
+    // console.log(phoneNumber.length)
     if (phoneNumber.value == '') {
         alert('Please enter a phone number');
     }
     else {
-        console.log(exclude.length)
+        // console.log(exclude.length)
         if (exclude.length >= ar3.length) {
             let result = "List completed";
             document.getElementById("op-text").innerHTML = result
             console.log(result)
         }
         else {
-            console.log(ar3.length)
+
             let result = Math.floor(Math.random() * ar3.length + 1);
-            let result1 = agent_id + "*" + result;
-            console.log(exclude)
+            let result1 = agent_id + "*" + (result+ar3[0]-1);
+            // console.log(exclude)
             while (exclude.includes(result1)) {
                 result = Math.floor(Math.random() * ar3.length + 1);
-                result1 = agent_id + "*" + result;
+                result1 = agent_id + "*" + (result+ar3[0]-1);
             }
             console.log(result1)
-            scenariono = result
+            scenariono = result+ar3[0]-1;
             console.log(scenariono)
-            console.log(dataidk.table.rows[scenariono - 1].c[2].v)
-            document.getElementById("op-text").innerHTML = dataidk.table.rows[scenariono - 1].c[2].v
+            console.log(dataidk.table.rows[result - 1].c[2].v)
+            document.getElementById("op-text").innerHTML = dataidk.table.rows[result - 1].c[2].v
             // document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
 
 

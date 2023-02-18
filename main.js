@@ -168,6 +168,20 @@ emailSelect.addEventListener('change', (event) => {
 
 async function handleSubmit(event) {
     event.preventDefault();
+    let submitBtn = document.getElementById("submit");
+    submitBtn.disabled = true; // disable the submit button
+    submitBtn.style.backgroundColor = "#ccc"; // change the background color of the button
+    submitBtn.style.cursor = "not-allowed"; // set the cursor to "not-allowed"
+    submitBtn.innerText = "Submitting..."; // change the text on the button
+    
+    setTimeout(function() {
+      submitBtn.disabled = false; // enable the submit button
+      submitBtn.style.backgroundColor = ""; // reset the background color of the button
+      submitBtn.style.cursor = ""; // reset the cursor to default
+      submitBtn.innerText = "Submit"; // change the text on the button back to original
+    }, 2500); // 5000 milliseconds = 5 seconds
+
+
     // console.log(document.getElementById("list").options[document.getElementById("list").selectedIndex].text);
     // document.getElementById("op-text").innerHTML = scenarioInput;
     let phno = document.getElementById("textInput").value;

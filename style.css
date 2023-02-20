@@ -13,8 +13,10 @@ body {
 
 form {
   display: inline-block;
-  width: 30%;
+  width: 80%;
+  max-width: 500px;
   text-align:center;
+  align-items: center;
 
   
   padding: 20px;
@@ -32,26 +34,32 @@ label {
 }
 
 input[type="text"]{
-  width: 400px;
+  width: 80%;
+  max-width: 400px;
   height: 25px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin: 10px;
+  align-items: center;
 }
 #namelist{
-  width: 400px;
+  width: 80%;
+  max-width: 400px;
   height: 25px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin: 10px;
+  align-items: center;
 }
 select {
-  width: 400px;
+  width: 80%;
+  max-width: 400px;
   height: 30px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin: 10px;
+  align-items: center;
 }
 
 button[type="submit"]

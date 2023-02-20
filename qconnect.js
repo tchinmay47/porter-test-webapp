@@ -2,8 +2,8 @@ let SHEET_ID = "1yDfCGLJOB8VSFb-0gM-HRK8oDHwbyAE-2q7je6-RwDA";
 let SHEET_TITLE = "Scenario_and_Team_Data";
 let SHEET_TITLE2 = "Data";
 let SHEET_RANGE = "T2:U5000";
-let SHEET_RANGE1 = "C2:E1000";
-let SHEET_RANGE2 = "A2:F6000";
+let SHEET_RANGE1 = "C108:E279";
+let SHEET_RANGE2 = "A3592:G6000";
 let ar1 = ["-"];
 let ar2 = ["-"];
 let ar3 = [];
@@ -229,8 +229,14 @@ async function handleSubmit(event) {
         alert('Please enter a phone number');
     }
     else {
+        let temparray=[];
+        for (let i=0;i<dataidk.table.rows.length; i++){
+            temparray[i]=agent_id+"*"+dataidk.table.rows[i].c[0].v;
+        }
+        console.log(temparray);
+        console.log(exclude);
         // console.log(exclude.length)
-        if (exclude.length >= ar3.length) {
+        if (temparray.every(element => exclude.includes(element))) {
             let result = "List completed";
             document.getElementById("op-text").innerHTML = result
             console.log(result)

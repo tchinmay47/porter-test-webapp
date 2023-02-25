@@ -225,7 +225,8 @@ async function handleSubmit(event) {
 
     }
     // console.log(phoneNumber.length)
-    if (phoneNumber.value == '') {
+    //check if phone number is empty or email id is not in the list
+    if (phoneNumber.value == '' || ar1.indexOf(agent_id) == -1) {
         alert('Please enter a phone number');
     }
     else {

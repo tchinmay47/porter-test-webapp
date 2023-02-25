@@ -227,7 +227,7 @@ async function handleSubmit(event) {
     // console.log(phoneNumber.length)
     //check if phone number is empty or email id is not in the list
     if (phoneNumber.value == '' || ar1.indexOf(agent_id) == -1) {
-        alert('Please enter a phone number');
+        alert('Please enter a phone number/email address');
     }
     else {
         let temparray=[];

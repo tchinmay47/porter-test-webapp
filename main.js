@@ -173,6 +173,7 @@ async function handleSubmit(event) {
     submitBtn.style.backgroundColor = "#ccc"; // change the background color of the button
     submitBtn.style.cursor = "not-allowed"; // set the cursor to "not-allowed"
     submitBtn.innerText = "Submitting..."; // change the text on the button
+    document.getElementById("op-text").innerHTML = "......"//reseting Output text   
     
     setTimeout(function() {
       submitBtn.disabled = false; // enable the submit button

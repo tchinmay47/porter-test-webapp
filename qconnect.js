@@ -25,6 +25,27 @@ let FULL_URL = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq
 let FULL_URL1 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE1);
 let FULL_URL2 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE2 + '&range=' + SHEET_RANGE2);
 
+//timer for refresh
+let timeout;
+
+function refreshPage() {
+  location.reload();
+}
+
+function resetTimer() {
+  clearTimeout(timeout);
+  timeout = setTimeout(refreshPage, 30*60 * 1000); // 30 minutes
+}
+
+function startTimer() {
+  document.addEventListener("mousemove", resetTimer);
+  document.addEventListener("keydown", resetTimer);
+  document.addEventListener("scroll", resetTimer);
+  resetTimer();
+}
+
+startTimer();
+//refresh end
 
 fetch(FULL_URL)
     .then(res => res.text())
@@ -173,7 +194,8 @@ async function handleSubmit(event) {
     submitBtn.style.backgroundColor = "#ccc"; // change the background color of the button
     submitBtn.style.cursor = "not-allowed"; // set the cursor to "not-allowed"
     submitBtn.innerText = "Submitting..."; // change the text on the button
-    document.getElementById("op-text").innerHTML = "......"//reseting Output text    
+    document.getElementById("op-text").innerHTML = "......"//reseting Output text  
+      
     setTimeout(function() {
       submitBtn.disabled = false; // enable the submit button
       submitBtn.style.backgroundColor = ""; // reset the background color of the button

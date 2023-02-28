@@ -4,6 +4,8 @@ let SHEET_TITLE2 = "Data";
 let SHEET_RANGE = "I2:J5000";
 let SHEET_RANGE1 = "C108:E279";
 let SHEET_RANGE2 = "A3592:G10000";
+let SHEET_RANGE3 = "E3592:E10000";
+
 let ar1 = ["-"];
 let ar2 = ["-"];
 let ar3 = [];
@@ -24,6 +26,7 @@ let dropdownselect = ''
 let FULL_URL = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE);
 let FULL_URL1 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE1);
 let FULL_URL2 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE2 + '&range=' + SHEET_RANGE2);
+let FULL_URL3 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE2 + '&range=' + SHEET_RANGE3);
 
 //timer for refresh
 let timeout;
@@ -228,14 +231,14 @@ async function handleSubmit(event) {
     // scenariono = data.table.rows[randomNumber].c[0].v;
 
 
-    let response1 = await fetch(FULL_URL2);
+    let response1 = await fetch(FULL_URL3);
     let rep1 = await response1.text();
     let data1 = JSON.parse(rep1.substr(47).slice(0, -2));
     reflist = []
     exclude = []
     for (let i = 0; i < data1.table.rows.length; i++) {
 
-        reflist.push(data1.table.rows[i].c[4].v);
+        reflist.push(data1.table.rows[i].c[0].v);
 
     }
 

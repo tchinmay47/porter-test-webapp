@@ -3,8 +3,8 @@ let SHEET_TITLE = "Scenario_and_Team_Data";
 let SHEET_TITLE2 = "Data";
 let SHEET_RANGE = "O2:P5000";
 let SHEET_RANGE1 = "C108:E279";
-let SHEET_RANGE2 = "A3592:G10000";
-let SHEET_RANGE3 = "E3592:E10000";
+let SHEET_RANGE2 = "A3592:G20000";
+let SHEET_RANGE3 = "E3592:E20000";
 
 let ar1 = ["-"];
 let ar2 = ["-"];

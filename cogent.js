@@ -3,13 +3,16 @@ let SHEET_TITLE = "Scenario_and_Team_Data";
 let SHEET_TITLE2 = "Data";
 let SHEET_RANGE = "O2:P5000";
 let SHEET_RANGE1 = "C108:E279";
-let SHEET_RANGE2 = "A3592:G20000";
+let SHEET_RANGE2 = "E3592:E20000";
 let SHEET_RANGE3 = "E3592:E20000";
 
 let ar1 = ["-"];
 let ar2 = ["-"];
 let ar3 = [];
+let ar4 = ["-"];
+let ar5 = ["-"];
 let reflist = [];
+let dataidk=[];
 let scenariono = [];
 let exclude = [];
 let namelist = '';
@@ -53,15 +56,17 @@ startTimer();
 fetch(FULL_URL)
     .then(res => res.text())
     .then(rep => {
-        let data = JSON.parse(rep.substr(47).slice(0, -2));
+        let datamain = JSON.parse(rep.substr(47).slice(0, -2));
         // console.log(rep)
         // console.log(data.table.rows[0].c[1].v);
         // console.log(data.table.rows[1].c[1].v);
         // console.log(data.table.rows.length);
 
-        for (let i = 0; i < data.table.rows.length; i++) {
-            if (!ar1.includes(data.table.rows[i].c[1].v)) {
-                ar1.push(data.table.rows[i].c[1].v);
+        for (let i = 0; i < datamain.table.rows.length; i++) {
+            if (!ar1.includes(datamain.table.rows[i].c[1].v)) {
+                ar1.push(datamain.table.rows[i].c[1].v);
+                ar5.push(datamain.table.rows[i].c[1].v);
+                ar4.push(datamain.table.rows[i].c[0].v);
             }
         }
         ar1.sort();
@@ -105,6 +110,8 @@ fetch(FULL_URL1)
         for (let i = 0; i < data.table.rows.length; i++) {
             if (!ar3.includes(data.table.rows[i].c[0].v)) {
                 ar3.push(data.table.rows[i].c[0].v);
+                dataidk.push(data.table.rows[i].c[2].v);
+
             }
         }
         // console.log(ar3)
@@ -122,19 +129,19 @@ fetch(FULL_URL1)
 
     })
 
-fetch(FULL_URL2)
-    .then(res => res.text())
-    .then(rep => {
-        let data = JSON.parse(rep.substr(47).slice(0, -2));
+// fetch(FULL_URL2)
+//     .then(res => res.text())
+//     .then(rep => {
+//         let data = JSON.parse(rep.substr(47).slice(0, -2));
 
 
-        for (let i = 0; i < data.table.rows.length; i++) {
+//         for (let i = 0; i < data.table.rows.length; i++) {
 
-            reflist.push(data.table.rows[i].c[4].v);
+//             reflist.push(data.table.rows[i].c[0].v);
 
-        }
-        // console.log(reflist)
-    })
+//         }
+//         // console.log(reflist)
+//     })
 //Phone number check if blank
 const phoneNumberField = document.getElementById("textInput");
 
@@ -152,13 +159,17 @@ phoneNumberField.addEventListener('blur', function () {
 
 //*******************test*/
 async function updateBatchSelect(email1) {
-    let response2 = await fetch(FULL_URL);
-    let rep2 = await response2.text();
-    let data2 = JSON.parse(rep2.substr(47).slice(0, -2));
-
-    for (let i = 0; i < data2.table.rows.length; i++) {
-        if (email1 === data2.table.rows[i].c[1].v) {
-            dropdownselect = data2.table.rows[i].c[0].v
+    // let response2 = await fetch(FULL_URL);
+    // let rep2 = await response2.text();
+    // let data2 = JSON.parse(rep2.substr(47).slice(0, -2));
+    // console.log(datamain)
+    // console.log(ar4)
+    // console.log(ar4.length)
+    // console.log(ar4[4])
+    // console.log(ar4[50])
+    for (let i = 0; i < ar4.length; i++) {
+        if (email1 === ar5[i]) {
+            dropdownselect = ar4[i];
         }
     }
 
@@ -216,10 +227,10 @@ async function handleSubmit(event) {
 
     let batch = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
 
-
-    let responseidk = await fetch(FULL_URL1);
-    let repidk = await responseidk.text();
-    let dataidk = JSON.parse(repidk.substr(47).slice(0, -2));
+    console.log("1")
+    // let responseidk = await fetch(FULL_URL1);
+    // let repidk = await responseidk.text();
+    // let dataidk = JSON.parse(repidk.substr(47).slice(0, -2));
     // console.log(dataidk)
 
     //for scenario->scenario number
@@ -230,10 +241,11 @@ async function handleSubmit(event) {
 
     // scenariono = data.table.rows[randomNumber].c[0].v;
 
-
+    console.log("2")
     let response1 = await fetch(FULL_URL3);
     let rep1 = await response1.text();
     let data1 = JSON.parse(rep1.substr(47).slice(0, -2));
+    console.log("2.1")
     reflist = []
     exclude = []
     for (let i = 0; i < data1.table.rows.length; i++) {
@@ -241,8 +253,8 @@ async function handleSubmit(event) {
         reflist.push(data1.table.rows[i].c[0].v);
 
     }
-
-    // console.log(reflist.length)
+    // console.log("3")
+    // console.log(reflist)
     for (let i = 0; i < reflist.length; i++) {
         if (reflist[i].startsWith(agent_id)) {
             exclude.push(reflist[i])
@@ -256,8 +268,8 @@ async function handleSubmit(event) {
     }
     else {
         let temparray=[];
-        for (let i=0;i<dataidk.table.rows.length; i++){
-            temparray[i]=agent_id+"*"+dataidk.table.rows[i].c[0].v;
+        for (let i=0;i<ar3.length; i++){
+            temparray[i]=agent_id+"*"+ar3[i];
         }
         // console.log(temparray);
         // console.log(exclude);
@@ -279,14 +291,14 @@ async function handleSubmit(event) {
             console.log(result1)
             scenariono = result+ar3[0]-1;
             console.log(scenariono)
-            console.log(dataidk.table.rows[result - 1].c[2].v)
-            document.getElementById("op-text").innerHTML = dataidk.table.rows[result - 1].c[2].v
+            // console.log(dataidk.table.rows[result - 1].c[2].v)
+            document.getElementById("op-text").innerHTML = dataidk[result - 1];
             // document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
 
 
 
 
-
+            console.log("4")
             fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno + "/" + agent_id + "/" + batch + "/" + scenariono, {
                 "method": "GET"
             })

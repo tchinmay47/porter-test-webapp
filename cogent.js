@@ -1,20 +1,14 @@
-let SHEET_ID = "1yDfCGLJOB8VSFb-0gM-HRK8oDHwbyAE-2q7je6-RwDA";
-let SHEET_TITLE = "Scenario_and_Team_Data";
-let SHEET_TITLE2 = "Data";
-let SHEET_RANGE = "O2:P5000";
-let SHEET_RANGE1 = "C108:E279";
-let SHEET_RANGE2 = "E3592:E20000";
-let SHEET_RANGE3 = "E3592:E20000";
+let FULL_URL = 'https://energetic-teal-galoshes.cyclic.app/';
+let FULL_URL1 = 'https://energetic-teal-galoshes.cyclic.app/cogent';
+let FULL_URL2 = 'https://drab-erin-ladybug-vest.cyclic.app/write';
 
-let ar1 = ["-"];
-let ar2 = ["-"];
-let ar3 = [];
-let ar4 = ["-"];
-let ar5 = ["-"];
-let reflist = [];
-let dataidk=[];
+let batchnames=[];
+let agents =[];
+let agents1 = [];
 let scenariono = [];
-let exclude = [];
+let scenariocode = [];
+let question= [];
+
 let namelist = '';
 let agent_id = '';
 
@@ -24,12 +18,6 @@ const emailSelect = document.getElementById('namelist');
 // batch select dropdown element
 const batchSelect = document.getElementById('list1');
 let dropdownselect = ''
-
-
-let FULL_URL = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE);
-let FULL_URL1 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE1);
-let FULL_URL2 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE2 + '&range=' + SHEET_RANGE2);
-let FULL_URL3 = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE2 + '&range=' + SHEET_RANGE3);
 
 //timer for refresh
 let timeout;
@@ -53,95 +41,31 @@ function startTimer() {
 startTimer();
 //refresh end
 
-fetch(FULL_URL)
-    .then(res => res.text())
-    .then(rep => {
-        let datamain = JSON.parse(rep.substr(47).slice(0, -2));
-        // console.log(rep)
-        // console.log(data.table.rows[0].c[1].v);
-        // console.log(data.table.rows[1].c[1].v);
-        // console.log(data.table.rows.length);
+fetch(FULL_URL1)
+    .then(response => response.json())
+    .then(data => {
 
-        for (let i = 0; i < datamain.table.rows.length; i++) {
-            if (!ar1.includes(datamain.table.rows[i].c[1].v)) {
-                ar1.push(datamain.table.rows[i].c[1].v);
-                ar5.push(datamain.table.rows[i].c[1].v);
-                ar4.push(datamain.table.rows[i].c[0].v);
-            }
-        }
-        ar1.sort();
-        // console.log(ar1.length);
+      batchnames = data.batch.map(item => item.batchname);
+      agents = data.batch.map(item => item.agent);
+      scenariono = data.scenario.map(item => item.scenariono);
+      scenariocode = data.scenario.map(item => item.scenariocode);
+      question = data.scenario.map(item => item.question);
+  
+      agents1 = agents.slice();
+      agents1.sort();
+      // console.log(agents);
+      // console.log(agents1);
 
-        for (let i = 0; i < ar1.length; i++) {
-            namelist += '<option value="' + ar1[i] + '" />';
 
+        for (let i = 0; i < agents1.length; i++) {
+            namelist += '<option value="' + agents1[i] + '" />';
         }
         let x = document.getElementById("list");
         x.innerHTML = namelist;
 
-        // for (let i = 0; i < data.table.rows.length; i++) {
-        //     if (!ar2.includes(data.table.rows[i].c[0].v)) {
-        //         ar2.push(data.table.rows[i].c[0].v);
-        //     }
-        // }
-        // ar2.sort();
-
-
-        // for (let i = 0; i < ar2.length; i++) {
-        //     // b1.innerHTML += data.table.rows[i].c[1].v +"<br>";
-        //     var x = document.getElementById("list1");
-        //     var option = document.createElement("option");
-        //     option.text = ar2[i];
-        //     x.add(option);
-
-        // }
-
-
-
-
     })
 
-fetch(FULL_URL1)
-    .then(res => res.text())
-    .then(rep => {
-        let data = JSON.parse(rep.substr(47).slice(0, -2));
 
-
-        for (let i = 0; i < data.table.rows.length; i++) {
-            if (!ar3.includes(data.table.rows[i].c[0].v)) {
-                ar3.push(data.table.rows[i].c[0].v);
-                dataidk.push(data.table.rows[i].c[2].v);
-
-            }
-        }
-        // console.log(ar3)
-
-        // for (let i = 0; i < ar3.length; i++) {
-        //     // b1.innerHTML += data.table.rows[i].c[1].v +"<br>";
-        //     var x = document.getElementById("list2");
-        //     var option = document.createElement("option");
-        //     option.text = ar3[i];
-        //     x.add(option);
-
-        // }
-
-
-
-    })
-
-// fetch(FULL_URL2)
-//     .then(res => res.text())
-//     .then(rep => {
-//         let data = JSON.parse(rep.substr(47).slice(0, -2));
-
-
-//         for (let i = 0; i < data.table.rows.length; i++) {
-
-//             reflist.push(data.table.rows[i].c[0].v);
-
-//         }
-//         // console.log(reflist)
-//     })
 //Phone number check if blank
 const phoneNumberField = document.getElementById("textInput");
 
@@ -159,17 +83,11 @@ phoneNumberField.addEventListener('blur', function () {
 
 //*******************test*/
 async function updateBatchSelect(email1) {
-    // let response2 = await fetch(FULL_URL);
-    // let rep2 = await response2.text();
-    // let data2 = JSON.parse(rep2.substr(47).slice(0, -2));
-    // console.log(datamain)
-    // console.log(ar4)
-    // console.log(ar4.length)
-    // console.log(ar4[4])
-    // console.log(ar4[50])
-    for (let i = 0; i < ar4.length; i++) {
-        if (email1 === ar5[i]) {
-            dropdownselect = ar4[i];
+
+    for (let i = 0; i < agents.length; i++) {
+        if (email1 === agents[i]) {
+            dropdownselect = batchnames[i];
+            // console.log(i)
         }
     }
 
@@ -179,7 +97,6 @@ async function updateBatchSelect(email1) {
     option.text = dropdownselect;
     batchSelect.add(option);
 
-    // batchSelect.value = dropdownselect;
     // console.log(dropdownselect)
 }
 
@@ -191,12 +108,6 @@ emailSelect.addEventListener('change', (event) => {
 
 //********************test end*/
 
-
-
-
-
-
-//   console.log(getRandomNumber(exclude));
 
 
 
@@ -225,92 +136,71 @@ async function handleSubmit(event) {
     const phoneNumber = document.getElementById("textInput");
     // console.log(agent_id)
 
-    let batch = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
+    let batch1 = document.getElementById("list1").options[document.getElementById("list1").selectedIndex].text;
 
-    console.log("1")
-    // let responseidk = await fetch(FULL_URL1);
-    // let repidk = await responseidk.text();
-    // let dataidk = JSON.parse(repidk.substr(47).slice(0, -2));
-    // console.log(dataidk)
+    // console.log("1")
+    let exclude1 = [];
+    let exclude = [];
+    // console.log(exclude)
+    // console.log(temparray)
+    let response1 = await fetch(FULL_URL+agent_id+'/'+batch1 );
+    let data1 = await response1.json();
+    // console.log(data1)
 
-    //for scenario->scenario number
 
-
-    // let randomNumber = Math.floor(Math.random() * data.table.rows.length) + 1;
-    // console.log(randomNumber)
-
-    // scenariono = data.table.rows[randomNumber].c[0].v;
-
-    console.log("2")
-    let response1 = await fetch(FULL_URL3);
-    let rep1 = await response1.text();
-    let data1 = JSON.parse(rep1.substr(47).slice(0, -2));
-    console.log("2.1")
-    reflist = []
-    exclude = []
-    for (let i = 0; i < data1.table.rows.length; i++) {
-
-        reflist.push(data1.table.rows[i].c[0].v);
-
-    }
-    // console.log("3")
-    // console.log(reflist)
-    for (let i = 0; i < reflist.length; i++) {
-        if (reflist[i].startsWith(agent_id)) {
-            exclude.push(reflist[i])
-        }
-
-    }
-    // console.log(phoneNumber.length)
-    //check if phone number is empty or email id is not in the list
-    if (phoneNumber.value == '' || ar1.indexOf(agent_id) == -1) {
+    exclude1 = data1.main.map(item => item.reference);
+    // console.log(exclude1)
+    exclude=[...exclude1];
+    // console.log(exclude)
+    // console.log("2")
+  
+    if (phoneNumber.value == '' || agents.indexOf(agent_id) == -1) {
         alert('Please enter a phone number/email address');
     }
     else {
-        let temparray=[];
-        for (let i=0;i<ar3.length; i++){
-            temparray[i]=agent_id+"*"+ar3[i];
-        }
-        // console.log(temparray);
-        // console.log(exclude);
-        // console.log(exclude.length)
-        if (temparray.every(element => exclude.includes(element))) {
+
+        if (scenariono.length===exclude.length) {
             let result = "List completed";
             document.getElementById("op-text").innerHTML = result
-            console.log(result)
+            // console.log(result)
         }
         else {
+          // console.log(scenariono.length)
+            let result = Math.floor(Math.random() * scenariono.length + 1);
+            let result1 = agent_id + "*" + (result+Number(scenariono[0])-1);
 
-            let result = Math.floor(Math.random() * ar3.length + 1);
-            let result1 = agent_id + "*" + (result+ar3[0]-1);
-            // console.log(exclude)
             while (exclude.includes(result1)) {
-                result = Math.floor(Math.random() * ar3.length + 1);
-                result1 = agent_id + "*" + (result+ar3[0]-1);
+                result = Math.floor(Math.random() * scenariono.length + 1);
+                result1 = agent_id + "*" + (result+Number(scenariono[0])-1);
             }
-            console.log(result1)
-            scenariono = result+ar3[0]-1;
-            console.log(scenariono)
-            // console.log(dataidk.table.rows[result - 1].c[2].v)
-            document.getElementById("op-text").innerHTML = dataidk[result - 1];
-            // document.getElementById("op-text").innerHTML += document.getElementById("list").options[document.getElementById("list").selectedIndex].text;
+            // console.log(result1)
+            // console.log(result)
+            let scenariono1 = result+Number(scenariono[0])-1;
+            // console.log(scenariono)
 
+            let scenariocode1=scenariocode[result - 1]
 
+            document.getElementById("op-text").innerHTML = question[result - 1];
 
-
-            console.log("4")
-            fetch("https://drab-erin-ladybug-vest.cyclic.app/" + phno + "/" + agent_id + "/" + batch + "/" + scenariono, {
-                "method": "GET"
-            })
-                .then(response => {
-                    return response.text();
-                })
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+          
+            // console.log("4")
+            let requestOptions = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                phonenumber: phno,
+                agent: agent_id,
+                batch: batch1,
+                scenario: scenariono1,
+                scenariocode: scenariocode1
+              })
+            };
+            
+            fetch(FULL_URL2, requestOptions)
+              .then(response => response.json())
+              .then(data => console.log(data))
+              .catch(error => console.error(error));
+            
         }
     }
 

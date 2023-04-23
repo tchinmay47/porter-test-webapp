@@ -10,7 +10,12 @@
 </head>
 
 <body>
-
+    <div class="countercontainer">
+        <div id="countertext"> Scenarios completed for today: </div>
+        <strong>
+            <div id="counter"><span id="countermainelement"></span> /20</div>
+        </strong>
+    </div>
     <div id="main">
         <h1>Qconnect</h1>
         <form onsubmit="handleSubmit(event)">
@@ -23,17 +28,25 @@
             <br>
             <input name="namelist" id="namelist" list="list">
             <datalist id="list"></datalist>
-        </input>
+            </input>
+            <br>
+            <br>
+            <label>Outcaller:</label>
+            <br>
+            <input name="selflist" id="selflist" list="selflist1">
+            <datalist id="selflist1"></datalist>
+            </input>
             <br>
             <br>
             <label>Batch Name:</label>
             <br>
             <select name="list1" id="list1">
             </select>
-    
+
             <br>
             <br>
-            <button type="submit" id="submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="window.location.reload()">Clear</button>
+            <button type="submit" id="submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button"
+                onclick="window.location.reload()">Clear</button>
         </form>
 
 
@@ -49,7 +62,7 @@
     </div>
 
 
-    <script src="qconnect.js"></script>
+    <script src="cogent.js"></script>
 </body>
 
 </html>

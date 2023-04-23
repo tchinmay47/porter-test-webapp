@@ -11,9 +11,11 @@ let question= [];
 
 let namelist = '';
 let agent_id = '';
-
+let self_id='';
+const maxscenariosperday=20;
 // email select dropdown element
 const emailSelect = document.getElementById('namelist');
+const selfemailSelect = document.getElementById('selflist');
 
 // batch select dropdown element
 const batchSelect = document.getElementById('list1');
@@ -61,7 +63,9 @@ fetch(FULL_URL1)
             namelist += '<option value="' + agents1[i] + '" />';
         }
         let x = document.getElementById("list");
+        let x1 = document.getElementById("selflist1");
         x.innerHTML = namelist;
+        x1.innerHTML = namelist;
 
     })
 
@@ -133,6 +137,8 @@ async function handleSubmit(event) {
     // document.getElementById("op-text").innerHTML = scenarioInput;
     let phno = document.getElementById("textInput").value;
     agent_id = document.getElementById("namelist").value;
+    self_id = document.getElementById("selflist").value;
+    
     const phoneNumber = document.getElementById("textInput");
     // console.log(agent_id)
 
@@ -149,15 +155,29 @@ async function handleSubmit(event) {
 
 
     exclude1 = data1.main.map(item => item.reference);
+    let daycount = data1.daycount;
+    if(daycount<maxscenariosperday){
+    document.getElementById("countermainelement").innerHTML = parseInt(daycount)+1;
+    }
+    else{
+      document.getElementById("countermainelement").innerHTML = daycount;
+    }
+
     // console.log(exclude1)
     exclude=[...exclude1];
     // console.log(exclude)
     // console.log("2")
   
-    if (phoneNumber.value == '' || agents.indexOf(agent_id) == -1) {
+    if (phoneNumber.value == '' || agents.indexOf(agent_id) == -1 || agents.indexOf(self_id) == -1) {
         alert('Please enter a phone number/email address');
     }
     else {
+      if(daycount>=maxscenariosperday){
+        let result = "Your 20 scenarios for the day are completed";
+        document.getElementById("op-text").innerHTML = result
+
+      }
+      else{
 
         if (scenariono.length===exclude.length) {
             let result = "List completed";
@@ -191,6 +211,7 @@ async function handleSubmit(event) {
                 phonenumber: phno,
                 agent: agent_id,
                 batch: batch1,
+                selfid: self_id,
                 scenario: scenariono1,
                 scenariocode: scenariocode1
               })
@@ -202,6 +223,7 @@ async function handleSubmit(event) {
               .catch(error => console.error(error));
             
         }
+      }
     }
 
 }

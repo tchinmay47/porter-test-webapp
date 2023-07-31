@@ -142,7 +142,7 @@ async function handleSubmit(event) {
     // document.getElementById("op-text").innerHTML = scenarioInput;
     let phno = document.getElementById("textInput").value;
     agent_id = document.getElementById("namelist").value;
-    self_id = document.getElementById("selflist").value;
+    // self_id = document.getElementById("selflist").value;
     
     const phoneNumber = document.getElementById("textInput");
     // console.log(agent_id)
@@ -173,7 +173,7 @@ async function handleSubmit(event) {
     // console.log(exclude)
     // console.log("2")
   
-    if (phoneNumber.value == '' || agents.indexOf(agent_id) == -1 || agents.indexOf(self_id) == -1) {
+    if (phoneNumber.value == '' || agents.indexOf(agent_id) == -1 ) {
         alert('Please enter a phone number/email address');
     }
     else {

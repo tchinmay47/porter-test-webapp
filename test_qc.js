@@ -205,7 +205,7 @@ async function handleSubmit(event) {
 
             let scenariocode1=scenariocode[result - 1]
 
-            document.getElementById("op-text").innerHTML = question[result - 1];
+            document.getElementById("op-text").innerHTML = result;
 
           
             // console.log("4")
